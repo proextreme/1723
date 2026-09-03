@@ -25,4 +25,26 @@ class ArticleFactory extends Factory
             'updated_by' => null,
         ];
     }
+
+    /**
+     * Indicate that the article is awaiting review.
+     */
+    public function inReview(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'status' => 'review',
+            'published_at' => null,
+        ]);
+    }
+
+    /**
+     * Indicate that the article is published.
+     */
+    public function published(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'status' => 'published',
+            'published_at' => now()->subDay(),
+        ]);
+    }
 }

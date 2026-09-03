@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\PrintEdition;
 use App\Models\Media;
+use App\Models\PrintEdition;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -26,5 +26,28 @@ class PrintEditionFactory extends Factory
             'is_current' => false,
             'sort_order' => 0,
         ];
+    }
+
+    /**
+     * Indicate that this is the current print edition.
+     *
+     * Only one edition may be current; callers are responsible for
+     * enforcing that invariant when creating more than one.
+     */
+    public function current(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'is_current' => true,
+        ]);
+    }
+
+    /**
+     * Create the edition without a cover image.
+     */
+    public function withoutCover(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'cover_media_id' => null,
+        ]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Article;
 use App\Models\ArticleTranslation;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

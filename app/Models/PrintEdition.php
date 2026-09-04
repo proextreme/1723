@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\Auditable;
 use App\Models\Concerns\HasTranslations;
 use Database\Factories\PrintEditionFactory;
 use Illuminate\Database\Eloquent\Attributes\Scope;
@@ -14,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class PrintEdition extends Model
 {
     /** @use HasFactory<PrintEditionFactory> */
-    use HasFactory, HasTranslations, SoftDeletes;
+    use Auditable, HasFactory, HasTranslations, SoftDeletes;
 
     protected $fillable = ['issue_number', 'release_date', 'magcloud_url', 'cover_media_id', 'is_current', 'sort_order'];
 

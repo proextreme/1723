@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\ArticleStatus;
+use App\Models\Concerns\Auditable;
 use App\Models\Concerns\HasTranslations;
 use Database\Factories\ArticleFactory;
 use Illuminate\Database\Eloquent\Attributes\Scope;
@@ -17,7 +18,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Article extends Model
 {
     /** @use HasFactory<ArticleFactory> */
-    use HasFactory, HasTranslations, SoftDeletes;
+    use Auditable, HasFactory, HasTranslations, SoftDeletes;
 
     protected $fillable = ['status', 'published_at', 'created_by', 'updated_by'];
 

@@ -189,6 +189,12 @@ a.statement__tile:hover img {
 }
 
 @media (min-width: 768px) {
+    .statement__body {
+        margin-top: 60px;
+        max-width: 100%;
+        font-size: 34px;
+    }
+
     .statement__grid {
         margin-left: calc(-1 * var(--gutter-md));
         margin-right: calc(-1 * var(--gutter-md));
@@ -205,22 +211,14 @@ a.statement__tile:hover img {
     max-width: 72rem;
 }
 
-.covers__grid {
+.covers__slider {
     margin-top: 56px;
-    display: grid;
-    gap: 20px;
 }
 
-.covers__grid > * {
+.covers__tile {
     aspect-ratio: 3 / 4;
     overflow: hidden;
     background: #161616;
-}
-
-@media (min-width: 768px) {
-    .covers__grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
 }
 
 /* =========================================================================

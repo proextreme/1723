@@ -25,7 +25,8 @@ class HomeController extends Controller
             'home' => $home,
             'gallery' => $gallery,
             'articles' => $articles,
-            'covers' => $articles->take(3),
+            // Front Covers is a slider, so it can hold more than fits on screen at once.
+            'covers' => $articles,
         ]);
     }
 }

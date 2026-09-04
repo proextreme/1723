@@ -68,14 +68,30 @@
         <h2 class="t-section">{{ $home->text('covers_heading') }}</h2>
         <p class="covers__body t-standfirst">{{ $home->text('covers_body') }}</p>
 
-        <div class="covers__grid">
-            @forelse ($covers as $cover)
-                <div><x-media-image :media="$cover->media->first()" :alt="$cover->translation?->title" label="Cover coming soon" /></div>
-            @empty
-                @for ($i = 0; $i < 3; $i++)
-                    <div></div>
-                @endfor
-            @endforelse
+        <div class="slider covers__slider" data-slider>
+            <button type="button" class="slider__arrow slider__arrow--prev" data-slider-prev aria-label="Previous cover">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+            </button>
+
+            <div class="slider__viewport" data-slider-viewport>
+                <ul class="slider__track" data-slider-track>
+                    @forelse ($covers as $cover)
+                        <li class="slider__slide">
+                            <div class="covers__tile">
+                                <x-media-image :media="$cover->media->first()" :alt="$cover->translation?->title" label="Cover coming soon" />
+                            </div>
+                        </li>
+                    @empty
+                        @for ($i = 0; $i < 3; $i++)
+                            <li class="slider__slide"><div class="covers__tile"></div></li>
+                        @endfor
+                    @endforelse
+                </ul>
+            </div>
+
+            <button type="button" class="slider__arrow slider__arrow--next" data-slider-next aria-label="Next cover">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+            </button>
         </div>
 
         <div class="section__cta">

@@ -1,0 +1,114 @@
+/* ---------------------------------------------------------------------------
+ * Horizontal slider (currently: Front Covers). Native scroll-snap does the
+ * sliding — it works by touch/trackpad with no JS at all. The arrow buttons
+ * in resources/js/site.js are a progressive enhancement that scrolls by
+ * exactly one slide and disable themselves at each end.
+ *
+ * Reference: "02 — arrows outside" from the client's slider mockups. Arrows
+ * only appear from --bp-md up — below that there is no room outside the
+ * viewport without causing horizontal page scroll, so the phone relies on
+ * the native swipe instead (the usual mobile carousel convention).
+ * ------------------------------------------------------------------------- */
+
+.slider {
+    position: relative;
+}
+
+.slider__viewport {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.slider__viewport::-webkit-scrollbar {
+    display: none;
+}
+
+.slider__track {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.slider__slide {
+    flex: 0 0 100%;
+    min-width: 0;
+    scroll-snap-align: start;
+}
+
+.slider__arrow {
+    display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .slider__viewport {
+        scroll-behavior: auto;
+    }
+}
+
+@media (min-width: 768px) {
+    .slider {
+        margin-inline: 54px;
+    }
+
+    .slider__slide {
+        flex-basis: calc((100% - 2 * 20px) / 3);
+    }
+
+    .slider__arrow {
+        position: absolute;
+        top: 50%;
+        z-index: 2;
+        display: grid;
+        place-items: center;
+        width: 42px;
+        height: 42px;
+        padding: 0;
+        border: 1px solid #4c4c4c;
+        background: var(--color-ink);
+        color: var(--color-paper);
+        transform: translateY(-50%);
+        transition:
+            opacity 0.2s,
+            transform 0.2s;
+    }
+
+    .slider__arrow:hover {
+        transform: translateY(-50%) scale(1.06);
+    }
+
+    .slider__arrow:disabled {
+        opacity: 0.3;
+        pointer-events: none;
+    }
+
+    .slider__arrow svg {
+        width: 18px;
+        height: 18px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    .slider__arrow--prev {
+        left: -54px;
+    }
+
+    .slider__arrow--next {
+        right: -54px;
+    }
+}
+
+/* On a light section (e.g. a future light slider) the arrow needs the
+   opposite palette; add `.slider--light` to the root element when needed. */
+.slider--light .slider__arrow {
+    border-color: #ccc;
+    background: var(--color-paper);
+    color: var(--color-ink);
+}

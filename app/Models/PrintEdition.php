@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PrintEdition extends Model
@@ -36,6 +37,15 @@ class PrintEdition extends Model
     protected function current(Builder $query): void
     {
         $query->where('is_current', true);
+    }
+
+    /**
+     * The default-locale translation, for editing in the Admin Panel.
+     */
+    public function defaultTranslation(): HasOne
+    {
+        return $this->hasOne(PrintEditionTranslation::class)
+            ->where('locale', config('app.fallback_locale'));
     }
 
     public function coverMedia(): BelongsTo

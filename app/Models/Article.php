@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Article extends Model
@@ -40,6 +41,15 @@ class Article extends Model
     {
         $query->where('status', ArticleStatus::Published)
             ->where('published_at', '<=', now());
+    }
+
+    /**
+     * The default-locale translation, for editing in the Admin Panel.
+     */
+    public function defaultTranslation(): HasOne
+    {
+        return $this->hasOne(ArticleTranslation::class)
+            ->where('locale', config('app.fallback_locale'));
     }
 
     public function credits(): HasMany

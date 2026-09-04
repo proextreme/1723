@@ -87,7 +87,6 @@
     display: grid;
     gap: 16px;
     padding-top: 20px;
-    border-top: 1px solid var(--color-paper);
 }
 
 .hero__tagline {
@@ -122,7 +121,7 @@
 
     .hero__footer {
         grid-template-columns: minmax(0, 1fr) auto;
-        align-items: end;
+        align-items: center;
         gap: 32px;
     }
 

@@ -20,7 +20,6 @@ class SettingSeeder extends Seeder
             ['key' => 'footer_note', 'type' => 'string'],
             ['key' => 'seo_default_title', 'type' => 'string'],
             ['key' => 'seo_default_description', 'type' => 'string'],
-            ['key' => 'home_print_media_id', 'type' => 'string'],
         ];
 
         foreach ($settings as $setting) {

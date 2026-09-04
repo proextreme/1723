@@ -2,7 +2,7 @@
     {{-- 1 — Hero (dark) --}}
     <section class="relative flex min-h-[100svh] flex-col bg-ink text-paper">
         <div class="pointer-events-none absolute inset-0 overflow-hidden">
-            <img src="{{ asset('images/home-hero.jpg') }}" alt="" width="1400" height="1867"
+            <img src="{{ $home->image('hero_image') ?? asset('images/home-hero.jpg') }}" alt="" width="1400" height="1867"
                  class="absolute left-1/2 top-0 h-full max-w-none -translate-x-1/2 object-cover opacity-95 md:left-[24%] md:w-[46%] md:translate-x-0">
         </div>
 
@@ -14,7 +14,7 @@
 
             <div class="grid gap-4 border-t border-paper pt-5 md:grid-cols-[minmax(0,1fr)_auto] md:items-end md:gap-8">
                 <p class="text-2xl leading-[0.95] tracking-[-0.04em] md:text-[32px]">
-                    Place of Power for Creators All Over the Globe
+                    {{ $home->text('hero_tagline') }}
                 </p>
                 <div class="grid gap-3 sm:grid-cols-2 md:flex md:shrink-0">
                     <x-cta-button :href="route('submit')" class="w-full sm:w-[280px]">Submit Your Work</x-cta-button>
@@ -26,11 +26,8 @@
 
     {{-- 2 — Magazine statement + editorial preview (light) --}}
     <section class="bg-paper px-4 py-20 text-ink md:px-5 md:py-24">
-        <h1 class="max-w-[14ch] text-section">Work gains value through placement</h1>
-        <p class="mt-10 max-w-6xl text-standfirst text-muted">
-            Publishing fashion editorials, cover stories, photography, art and creative projects from
-            photographers, stylists, designers and artists worldwide.
-        </p>
+        <h1 class="max-w-[14ch] text-section">{{ $home->text('statement_heading') }}</h1>
+        <p class="mt-10 max-w-6xl text-standfirst text-muted">{{ $home->text('statement_body') }}</p>
 
         @if ($articles->isNotEmpty())
             <ul class="-mx-4 mt-14 grid grid-cols-2 gap-[2px] md:-mx-5 md:grid-cols-3">
@@ -55,11 +52,8 @@
 
     {{-- 3 — Front covers (dark) --}}
     <section class="bg-ink px-4 py-20 text-paper md:px-5 md:py-24">
-        <h2 class="text-section">Front Covers</h2>
-        <p class="mt-10 max-w-6xl text-standfirst text-muted">
-            The highest level of placement at 17:23 MAG. Explore front cover opportunities through
-            advertorial collaborations and selected partnerships.
-        </p>
+        <h2 class="text-section">{{ $home->text('covers_heading') }}</h2>
+        <p class="mt-10 max-w-6xl text-standfirst text-muted">{{ $home->text('covers_body') }}</p>
 
         <div class="mt-14 grid gap-5 md:grid-cols-3">
             @forelse ($covers as $cover)
@@ -80,22 +74,22 @@
 
     {{-- 4 — Print editions teaser (light) --}}
     <section class="bg-paper px-4 py-20 text-ink md:px-5 md:py-24">
-        <h2 class="text-headline">Print Editions</h2>
+        <h2 class="text-headline">{{ $home->text('print_heading') }}</h2>
 
-        <div class="mt-12 ml-auto aspect-[4/3] w-full max-w-[1200px] overflow-hidden bg-[#ededed] text-ink md:w-[86%]">
-            <x-media-image :media="$printFeature"
-                           alt="17:23 MAG print edition" label="Print feature coming soon" />
+        <div class="mt-12 ml-auto aspect-[4/3] w-full max-w-[1200px] overflow-hidden bg-[#ededed] md:w-[86%]">
+            @if ($home->image('print_image'))
+                <img src="{{ $home->image('print_image') }}" alt="17:23 MAG print edition"
+                     class="h-full w-full object-cover" loading="lazy" decoding="async">
+            @else
+                <div class="flex h-full w-full items-center justify-center text-[11px] font-normal uppercase tracking-widest text-muted">
+                    Print feature coming soon
+                </div>
+            @endif
         </div>
 
         <div class="mt-14">
-            <p class="max-w-[30ch] text-balance text-lead capitalize">
-                In a fast digital world, print becomes a form of quiet luxury
-            </p>
-            <p class="mt-6 max-w-6xl text-standfirst text-muted">
-                Limited print editions of 17:23 MAG, bringing together fashion editorials, front covers,
-                interviews, advertorials and creative photography from the world's leading and emerging
-                creative talent.
-            </p>
+            <p class="max-w-[30ch] text-balance text-lead capitalize">{{ $home->text('print_quote') }}</p>
+            <p class="mt-6 max-w-6xl text-standfirst text-muted">{{ $home->text('print_body') }}</p>
         </div>
 
         <div class="mt-12 flex justify-center">
@@ -103,20 +97,25 @@
         </div>
     </section>
 
-    {{-- 5 — Final CTA (dark) --}}
-    <section class="bg-ink px-4 py-28 text-center text-paper md:px-5 md:py-40">
-        <h2 class="text-headline">Enter 17:23 Be Seen</h2>
-        <div class="mt-12 flex justify-center">
-            <x-cta-button :href="route('submit')" class="w-full max-w-[740px]">Submit Your Work</x-cta-button>
+    {{-- 5 — Final CTA (dark, optional background image) --}}
+    <section class="relative overflow-hidden bg-ink px-4 py-28 text-center text-paper md:px-5 md:py-40">
+        @if ($home->image('beseen_image'))
+            <img src="{{ $home->image('beseen_image') }}" alt=""
+                 class="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-60" loading="lazy" decoding="async">
+        @endif
+        <div class="relative">
+            <h2 class="text-headline">{{ $home->text('beseen_heading') }}</h2>
+            <div class="mt-12 flex justify-center">
+                <x-cta-button :href="route('submit')" class="w-full max-w-[740px]">Submit Your Work</x-cta-button>
+            </div>
         </div>
     </section>
 
     {{-- 6 — Newsletter (light) --}}
     <section class="bg-paper px-4 py-20 text-center text-ink md:px-5 md:py-24">
-        <h2 class="text-section">What's In It For Me?</h2>
+        <h2 class="text-section">{{ $home->text('newsletter_heading') }}</h2>
         <p class="mx-auto mt-10 max-w-5xl text-2xl leading-[1.05] tracking-[-0.04em] md:text-[42px]">
-            The environment around the work defines its value. Where it appears, who it stands next to,
-            and how it is presented define its impact. At 17:23, context becomes outcome.
+            {{ $home->text('newsletter_body') }}
         </p>
 
         <form method="POST" action="{{ route('newsletter.store') }}"
@@ -141,10 +140,8 @@
 
         <p class="mt-6 text-2xl font-normal tracking-[-0.03em] text-muted">A closer circle. More access.</p>
 
-        <p class="mx-auto mt-20 flex max-w-6xl flex-col items-center gap-y-1 text-2xl uppercase leading-[0.9] tracking-[-0.04em] text-muted md:flex-row md:flex-wrap md:justify-center md:gap-x-12 md:text-[57px]">
-            <span class="md:whitespace-nowrap">The right place</span>
-            <span class="md:whitespace-nowrap">The right time</span>
-            <span class="md:whitespace-nowrap">The right eyes on your work</span>
+        <p class="mx-auto mt-20 max-w-6xl text-2xl uppercase leading-[0.95] tracking-[-0.04em] text-muted md:text-[57px]">
+            {{ $home->text('newsletter_tagline') }}
         </p>
     </section>
 </x-layout>

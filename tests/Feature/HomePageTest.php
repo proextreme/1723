@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\Article;
 use App\Models\ArticleTranslation;
-use App\Models\Media;
 use App\Models\PrintEdition;
 use App\Models\PrintEditionTranslation;
 use App\Support\Settings\SettingsRepository;
@@ -54,17 +53,19 @@ class HomePageTest extends TestCase
             ->assertSee(route('print'));
     }
 
-    public function test_the_print_feature_image_is_taken_from_the_site_setting(): void
+    public function test_home_page_content_is_editable_through_settings(): void
     {
         Storage::fake('public');
-        $path = Storage::disk('public')->putFile('media', UploadedFile::fake()->image('feature.jpg', 800, 600));
+        $path = Storage::disk('public')->putFile('home', UploadedFile::fake()->image('feature.jpg', 800, 600));
 
-        $media = Media::factory()->create(['disk' => 'public', 'path' => $path]);
-        app(SettingsRepository::class)->set('home_print_media_id', (string) $media->id);
+        $settings = app(SettingsRepository::class);
+        $settings->set('home.print_image', $path);
+        $settings->set('home.beseen_heading', 'Step Into The Light');
 
         $this->get('/')
             ->assertOk()
-            ->assertSee(Storage::disk('public')->url($path), false);
+            ->assertSee(Storage::disk('public')->url($path), false)
+            ->assertSee('Step Into The Light');
     }
 
     public function test_the_newsletter_endpoint_is_rate_limited(): void

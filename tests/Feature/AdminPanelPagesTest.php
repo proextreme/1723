@@ -34,6 +34,7 @@ class AdminPanelPagesTest extends TestCase
             'users create' => ['/admin/users/create'],
             'settings' => ['/admin/manage-settings'],
             'media kit' => ['/admin/manage-media-kit'],
+            'home page' => ['/admin/manage-home-page'],
         ];
     }
 

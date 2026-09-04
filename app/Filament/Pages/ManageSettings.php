@@ -2,12 +2,10 @@
 
 namespace App\Filament\Pages;
 
-use App\Models\Media;
 use App\Models\Setting;
 use App\Support\Settings\SettingsRepository;
 use BackedEnum;
 use Filament\Actions\Action;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -47,8 +45,6 @@ class ManageSettings extends Page implements HasForms
         'seo_default_description' => 'textarea',
     ];
 
-    private const MEDIA_KEY = 'home_print_media_id';
-
     /**
      * @var array<string, mixed>
      */
@@ -61,10 +57,10 @@ class ManageSettings extends Page implements HasForms
 
     public function mount(SettingsRepository $settings): void
     {
-        $keys = [...array_keys(self::TEXT_FIELDS), self::MEDIA_KEY];
-
         $this->form->fill(
-            collect($keys)->mapWithKeys(fn (string $key): array => [$key => $settings->get($key)])->all(),
+            collect(array_keys(self::TEXT_FIELDS))
+                ->mapWithKeys(fn (string $key): array => [$key => $settings->get($key)])
+                ->all(),
         );
     }
 
@@ -78,17 +74,6 @@ class ManageSettings extends Page implements HasForms
                     $this->textField('newsletter_inbox')->label('Newsletter inbox')->email()
                         ->helperText('Where newsletter sign-ups are emailed.'),
                     $this->textField('footer_note')->label('Footer note'),
-                ]),
-                Section::make('Home page')->schema([
-                    Select::make(self::MEDIA_KEY)
-                        ->label('Print Editions feature image')
-                        ->helperText('The single image in the Print Editions block on the home page. Upload it in the Media library first.')
-                        ->options(fn (): array => Media::query()
-                            ->orderByDesc('created_at')
-                            ->pluck('original_name', 'id')
-                            ->all())
-                        ->searchable()
-                        ->native(false),
                 ]),
                 Section::make('Default SEO')->schema([
                     $this->textField('seo_default_title')->label('Default title'),

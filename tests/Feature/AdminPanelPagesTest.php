@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Filament\Resources\HomeGalleryImages\Pages\ManageHomeGalleryImages;
 use App\Models\Article;
 use App\Models\ArticleTranslation;
 use App\Models\HomeGalleryImage;
@@ -11,6 +12,7 @@ use App\Models\PrintEditionTranslation;
 use App\Models\SiteLink;
 use App\Models\User;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
+use Livewire\Livewire;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
@@ -52,7 +54,7 @@ class AdminPanelPagesTest extends TestCase
         SiteLink::factory()->create(['target' => '_blank']);
         SiteLink::factory()->create(['target' => '_self']);
         HomeGalleryImage::factory()->create(['url' => 'https://example.test']);
-        HomeGalleryImage::factory()->create(['url' => null]);
+        HomeGalleryImage::factory()->covers()->create(['url' => null]);
         User::factory()->contentAdministrator()->create();
 
         $this->actingAs(User::factory()->administrator()->create())
@@ -89,5 +91,17 @@ class AdminPanelPagesTest extends TestCase
         $this->actingAs(User::factory()->contentAdministrator()->create())
             ->get('/admin/print-editions')
             ->assertOk();
+    }
+
+    public function test_home_images_tabs_filter_by_section(): void
+    {
+        HomeGalleryImage::factory()->create(['alt' => 'An editorial grid image']);
+        HomeGalleryImage::factory()->covers()->create(['alt' => 'A front covers image']);
+
+        Livewire::actingAs(User::factory()->administrator()->create())
+            ->test(ManageHomeGalleryImages::class)
+            ->assertCanSeeTableRecords(HomeGalleryImage::all())
+            ->set('activeTab', 'covers')
+            ->assertCountTableRecords(1);
     }
 }

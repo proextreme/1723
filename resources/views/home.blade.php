@@ -75,17 +75,33 @@
 
             <div class="slider__viewport" data-slider-viewport>
                 <ul class="slider__track" data-slider-track>
-                    @forelse ($covers as $cover)
-                        <li class="slider__slide">
-                            <div class="covers__tile">
-                                <x-media-image :media="$cover->media->first()" :alt="$cover->translation?->title" label="Cover coming soon" />
-                            </div>
-                        </li>
-                    @empty
+                    @if ($coverImages->isNotEmpty())
+                        @foreach ($coverImages as $image)
+                            <li class="slider__slide">
+                                @if ($image->url)
+                                    <a class="covers__tile" href="{{ $image->url }}" target="_blank" rel="noopener">
+                                        <img class="media__img" src="{{ $image->publicUrl() }}" alt="{{ $image->alt }}" loading="lazy" decoding="async">
+                                    </a>
+                                @else
+                                    <div class="covers__tile">
+                                        <img class="media__img" src="{{ $image->publicUrl() }}" alt="{{ $image->alt }}" loading="lazy" decoding="async">
+                                    </div>
+                                @endif
+                            </li>
+                        @endforeach
+                    @elseif ($covers->isNotEmpty())
+                        @foreach ($covers as $cover)
+                            <li class="slider__slide">
+                                <div class="covers__tile">
+                                    <x-media-image :media="$cover->media->first()" :alt="$cover->translation?->title" label="Cover coming soon" />
+                                </div>
+                            </li>
+                        @endforeach
+                    @else
                         @for ($i = 0; $i < 3; $i++)
                             <li class="slider__slide"><div class="covers__tile"></div></li>
                         @endfor
-                    @endforelse
+                    @endif
                 </ul>
             </div>
 

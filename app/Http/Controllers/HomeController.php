@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\HomeGallerySection;
 use App\Models\Article;
 use App\Models\HomeGalleryImage;
 use App\Support\Content\HomeContent;
@@ -11,7 +12,8 @@ class HomeController extends Controller
 {
     public function __invoke(HomeContent $home): View
     {
-        $gallery = HomeGalleryImage::query()->ordered()->get();
+        $gallery = HomeGalleryImage::query()->forSection(HomeGallerySection::Statement)->ordered()->get();
+        $coverImages = HomeGalleryImage::query()->forSection(HomeGallerySection::Covers)->ordered()->get();
 
         $articles = Article::query()
             ->published()
@@ -24,6 +26,7 @@ class HomeController extends Controller
         return view('home', [
             'home' => $home,
             'gallery' => $gallery,
+            'coverImages' => $coverImages,
             'articles' => $articles,
             // Front Covers is a slider, so it can hold more than fits on screen at once.
             'covers' => $articles,

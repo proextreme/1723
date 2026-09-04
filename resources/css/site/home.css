@@ -216,9 +216,18 @@ a.statement__tile:hover img {
 }
 
 .covers__tile {
+    display: block;
     aspect-ratio: 3 / 4;
     overflow: hidden;
     background: #161616;
+}
+
+.covers__tile img {
+    transition: transform 0.5s;
+}
+
+a.covers__tile:hover img {
+    transform: scale(1.03);
 }
 
 /* =========================================================================

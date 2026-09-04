@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\HomeGalleryImages;
 
+use App\Enums\HomeGallerySection;
 use App\Filament\Resources\HomeGalleryImages\Pages\ManageHomeGalleryImages;
 use App\Models\HomeGalleryImage;
 use BackedEnum;
@@ -10,6 +11,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
@@ -25,15 +27,23 @@ class HomeGalleryImageResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedSquares2x2;
 
-    protected static ?string $navigationLabel = 'Home gallery';
+    protected static ?string $navigationLabel = 'Home images';
 
-    protected static ?string $modelLabel = 'gallery image';
+    protected static ?string $modelLabel = 'image';
 
     protected static ?int $navigationSort = 1;
 
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
+            Select::make('section')
+                ->label('Used in')
+                ->options(fn (): array => collect(HomeGallerySection::cases())
+                    ->mapWithKeys(fn (HomeGallerySection $section): array => [$section->value => $section->label()])
+                    ->all())
+                ->default(HomeGallerySection::Statement->value)
+                ->selectablePlaceholder(false)
+                ->required(),
             FileUpload::make('path')
                 ->label('Image')
                 ->image()
@@ -63,10 +73,14 @@ class HomeGalleryImageResource extends Resource
         return $table
             ->modifyQueryUsing(fn (Builder $query) => $query->ordered())
             ->reorderable('sort_order')
-            ->emptyStateHeading('No gallery images yet')
-            ->emptyStateDescription('Add images for the grid in the home page “Work gains value” section.')
+            ->emptyStateHeading('No images yet')
+            ->emptyStateDescription('Add images for the editorial grid or the Front Covers slider on the home page.')
             ->columns([
                 ImageColumn::make('path')->label('Image')->disk('public')->height(64),
+                TextColumn::make('section')
+                    ->label('Used in')
+                    ->badge()
+                    ->formatStateUsing(fn (?HomeGallerySection $state): string => $state?->label() ?? '—'),
                 TextColumn::make('alt')->label('Alt text')->limit(50)->placeholder('— missing —'),
                 TextColumn::make('url')
                     ->label('Link')
@@ -75,7 +89,12 @@ class HomeGalleryImageResource extends Resource
                     ->url(fn (HomeGalleryImage $record): ?string => $record->url, shouldOpenInNewTab: true),
             ])
             ->headerActions([
-                CreateAction::make(),
+                CreateAction::make()
+                    ->fillForm(fn ($livewire): array => [
+                        'section' => in_array($livewire->activeTab, array_column(HomeGallerySection::cases(), 'value'), true)
+                            ? $livewire->activeTab
+                            : HomeGallerySection::Statement->value,
+                    ]),
             ])
             ->recordActions([
                 EditAction::make(),

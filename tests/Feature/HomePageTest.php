@@ -75,6 +75,34 @@ class HomePageTest extends TestCase
         $this->assertStringContainsString('<div class="statement__tile">', $html);
     }
 
+    public function test_front_covers_prefers_curated_images_over_articles(): void
+    {
+        // seed the statement section too, so the editorial grid doesn't need the article fallback
+        HomeGalleryImage::factory()->create();
+        HomeGalleryImage::factory()->covers()->create([
+            'path' => 'home/gallery/cover.jpg', 'alt' => 'Curated cover', 'url' => 'https://example.test/cover',
+        ]);
+        $article = Article::factory()->published()->create();
+        ArticleTranslation::factory()->for($article)->create(['locale' => 'en', 'title' => 'Fallback Article']);
+
+        $response = $this->get('/');
+
+        $response->assertOk()
+            ->assertSee('alt="Curated cover"', false)
+            ->assertSee('href="https://example.test/cover"', false)
+            ->assertDontSee('Fallback Article');
+    }
+
+    public function test_a_gallery_image_in_the_statement_section_does_not_appear_in_front_covers(): void
+    {
+        HomeGalleryImage::factory()->create(['alt' => 'Editorial only image']);
+
+        $response = $this->get('/');
+
+        // rendered once, in the editorial grid — not duplicated into the covers slider
+        $this->assertSame(1, substr_count($response->getContent(), 'alt="Editorial only image"'));
+    }
+
     public function test_home_page_content_is_editable_through_settings(): void
     {
         Storage::fake('public');

@@ -3,7 +3,7 @@
     <section class="relative flex min-h-[100svh] flex-col bg-ink text-paper">
         <div class="pointer-events-none absolute inset-0 overflow-hidden">
             <img src="{{ $home->image('hero_image') ?? asset('images/home-hero.jpg') }}" alt="" width="1400" height="1867"
-                 class="absolute left-1/2 top-0 h-full max-w-none -translate-x-1/2 object-cover opacity-95 md:left-[24%] md:w-[46%] md:translate-x-0">
+                 class="absolute left-1/2 top-0 h-full w-full max-w-none -translate-x-1/2 object-contain object-top opacity-95 md:left-[24%] md:w-[46%] md:translate-x-0 md:object-cover md:object-center">
         </div>
 
         <div class="relative flex flex-1 flex-col px-4 pb-28 pt-28 md:px-5 md:pb-16 md:pt-32">

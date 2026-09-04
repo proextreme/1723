@@ -27,43 +27,39 @@
         : null;
 @endphp
 
-<footer class="bg-ink px-4 pb-6 pt-20 text-paper md:px-10">
-    <div class="mx-auto flex max-w-[1628px] flex-col items-center gap-12">
-        <div class="flex w-full flex-col items-center gap-8">
-            <x-logo class="h-24 w-full max-w-[1194px] md:h-40" title="17:23 MAG" />
-            <p class="text-center text-2xl uppercase tracking-[-0.04em] md:text-[57px] md:leading-[0.85]">
-                An Independent Fashion &amp; Art Magazine
-            </p>
+<footer class="site-footer">
+    <div class="site-footer__inner">
+        <div class="site-footer__brand">
+            <div class="site-footer__mark"><x-logo /></div>
+            <p class="site-footer__tagline">An Independent Fashion &amp; Art Magazine</p>
         </div>
 
-        <div class="flex w-full flex-col gap-8 text-lg font-normal tracking-[-0.03em] md:flex-row md:flex-wrap md:items-center md:justify-between md:text-2xl">
-            <nav aria-label="Footer" class="flex flex-wrap gap-x-7 gap-y-2">
+        <div class="site-footer__cols">
+            <nav aria-label="Footer">
                 @foreach ($primary as $item)
-                    <a href="{{ route($item['route']) }}" class="hover:opacity-60">{{ $item['label'] }}</a>
+                    <a href="{{ route($item['route']) }}">{{ $item['label'] }}</a>
                 @endforeach
             </nav>
 
-            <div class="flex flex-wrap gap-x-7 gap-y-2">
+            <div>
                 @if ($instagram)
-                    <a href="{{ $instagram->url }}" target="_blank" rel="noopener" class="hover:opacity-60">Instagram</a>
+                    <a href="{{ $instagram->url }}" target="_blank" rel="noopener">Instagram</a>
                 @endif
                 @if ($email)
-                    <a href="{{ $email->url }}" class="hover:opacity-60">Email</a>
+                    <a href="{{ $email->url }}">Email</a>
                 @endif
                 @if ($mediaKitUrl)
-                    <a href="{{ $mediaKitUrl }}" target="_blank" rel="noopener" class="hover:opacity-60">Media Kit</a>
+                    <a href="{{ $mediaKitUrl }}" target="_blank" rel="noopener">Media Kit</a>
                 @endif
             </div>
 
-            <nav aria-label="Legal" class="flex flex-wrap gap-x-7 gap-y-2">
+            <nav aria-label="Legal">
                 @foreach ($legal as $item)
-                    <a href="{{ route($item['route']) }}" class="hover:opacity-60">{{ $item['label'] }}</a>
+                    <a href="{{ route($item['route']) }}">{{ $item['label'] }}</a>
                 @endforeach
             </nav>
         </div>
 
-        <p class="w-full text-right text-sm tracking-[-0.03em] text-muted md:text-lg">
-            &copy; {{ now()->year }} 17:23 MAG. All rights reserved.
-        </p>
+        <p class="site-footer__copy">&copy; {{ now()->year }} 17:23 MAG. All rights reserved.</p>
     </div>
 </footer>

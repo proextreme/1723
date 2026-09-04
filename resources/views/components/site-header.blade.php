@@ -8,54 +8,48 @@
     ];
 @endphp
 
-<header class="absolute inset-x-0 top-0 z-40 text-paper">
-    <div class="flex items-center justify-between px-4 py-5 md:px-5">
-        <a href="{{ route('home') }}" aria-label="17:23 MAG — home" class="shrink-0">
-            <x-logo class="h-4 md:h-[52px]" />
+<header class="site-header">
+    <div class="site-header__bar">
+        <a href="{{ route('home') }}" class="site-header__logo" aria-label="17:23 MAG — home">
+            <x-logo />
         </a>
 
-        <nav aria-label="Primary" class="hidden items-center gap-9 md:flex">
+        <nav class="nav" aria-label="Primary">
             @foreach ($nav as $item)
                 <a href="{{ route($item['route']) }}"
-                   @class([
-                       'text-xl font-medium tracking-[-0.02em] transition-opacity hover:opacity-60',
-                       'border-b border-paper' => request()->routeIs($item['route']),
-                   ])>
+                   class="nav__link @if (request()->routeIs($item['route'])) nav__link--active @endif">
                     {{ $item['label'] }}
                 </a>
             @endforeach
         </nav>
 
-        <button type="button" data-nav-toggle aria-expanded="false" aria-controls="nav-drawer"
-                aria-label="Open menu" class="md:hidden">
+        <button type="button" class="nav-toggle" data-nav-toggle="open"
+                aria-expanded="false" aria-controls="nav-drawer" aria-label="Open menu">
             <svg width="19" height="14" viewBox="0 0 19 14" fill="none" aria-hidden="true">
                 <path d="M0 1h19M0 7h19M0 13h19" stroke="currentColor" stroke-width="1.5"/>
             </svg>
         </button>
     </div>
 
-    <div id="nav-drawer" data-nav-drawer hidden
-         class="fixed inset-0 z-50 flex flex-col overflow-y-auto bg-ink px-4 pb-28 pt-5 text-paper md:hidden">
-        <div class="flex items-center justify-between">
-            <x-logo class="h-4" />
-            <button type="button" data-nav-toggle aria-label="Close menu">
+    <div id="nav-drawer" class="nav-drawer" data-nav-drawer hidden>
+        <div class="nav-drawer__top">
+            <x-logo />
+            <button type="button" data-nav-toggle="close" aria-label="Close menu">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                     <path d="M1 1l18 18M19 1L1 19" stroke="currentColor" stroke-width="1.5"/>
                 </svg>
             </button>
         </div>
 
-        <nav aria-label="Primary" class="mt-16 flex flex-col items-end gap-8">
+        <nav class="nav-drawer__list" aria-label="Primary">
             @foreach ($nav as $item)
-                <a href="{{ route($item['route']) }}" class="text-2xl font-medium capitalize tracking-[-0.02em]">
-                    {{ $item['label'] }}
-                </a>
+                <a href="{{ route($item['route']) }}">{{ $item['label'] }}</a>
             @endforeach
         </nav>
 
-        <div class="mt-auto flex flex-col gap-3 pt-10">
-            <x-cta-button :href="route('submit')" class="w-full">Submit Your Work</x-cta-button>
-            <x-cta-button :href="route('partnerships')" class="w-full">Explore Partnerships</x-cta-button>
+        <div class="nav-drawer__ctas">
+            <x-cta-button :href="route('submit')" class="btn--block">Submit Your Work</x-cta-button>
+            <x-cta-button :href="route('partnerships')" class="btn--block">Explore Partnerships</x-cta-button>
         </div>
     </div>
 </header>

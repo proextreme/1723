@@ -1,0 +1,121 @@
+/* ---------------------------------------------------------------------------
+ * Small shared pieces: buttons, the cookie bar, the media placeholder.
+ * ------------------------------------------------------------------------- */
+
+/* ---- button ---- */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 55px;
+    padding: 0 24px;
+    font-size: 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    background: var(--color-paper);
+    color: var(--color-ink);
+    transition: transform 0.2s;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn:focus-visible {
+    outline-offset: -4px;
+}
+
+/* black button, used on the light sections */
+.btn--dark {
+    background: var(--color-ink);
+    color: var(--color-paper);
+}
+
+/* full width of its container */
+.btn--block {
+    width: 100%;
+}
+
+.btn__arrow {
+    margin-left: 8px;
+}
+
+/* ---- cookie bar ---- */
+
+.cookie-bar {
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 50;
+    padding: 16px var(--gutter);
+    background: var(--color-ink);
+    color: var(--color-paper);
+    border-top: 1px solid var(--color-paper);
+}
+
+.cookie-bar__inner {
+    max-width: 1628px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+}
+
+.cookie-bar__text a {
+    text-decoration: underline;
+}
+
+.cookie-bar__accept {
+    flex-shrink: 0;
+    padding: 8px 20px;
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.03em;
+}
+
+/* ---- media placeholder ---- */
+
+.media {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.media__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.media__fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    font-size: 11px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    opacity: 0.4;
+}
+
+@media (min-width: 768px) {
+    .cookie-bar {
+        padding: 16px 40px;
+    }
+
+    .cookie-bar__inner {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+}

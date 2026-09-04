@@ -11,15 +11,13 @@
 
 @if ($src)
     <img
+        class="media__img"
         src="{{ $src }}"
         alt="{{ $alt ?? $media->alt_text ?? '' }}"
         @if ($media->width && $media->height) width="{{ $media->width }}" height="{{ $media->height }}" @endif
         loading="lazy"
         decoding="async"
-        {{ $attributes->merge(['class' => 'h-full w-full object-cover']) }}
     >
 @else
-    <div {{ $attributes->merge(['class' => 'flex h-full w-full items-center justify-center text-[11px] font-normal uppercase tracking-widest opacity-40']) }}>
-        {{ $label }}
-    </div>
+    <div class="media__fallback">{{ $label }}</div>
 @endif

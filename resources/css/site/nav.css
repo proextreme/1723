@@ -1,0 +1,124 @@
+/* ---------------------------------------------------------------------------
+ * Site header: logo + primary nav (desktop) and the full-screen drawer (phone).
+ * The header sits over the dark hero, so its text is always white.
+ * ------------------------------------------------------------------------- */
+
+.site-header {
+    position: absolute;
+    inset: 0 0 auto 0;
+    z-index: 40;
+    color: var(--color-paper);
+}
+
+.site-header__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px var(--gutter);
+}
+
+.site-header__logo {
+    flex-shrink: 0;
+}
+
+.site-header__logo svg {
+    height: 16px;
+    width: auto;
+}
+
+/* ---- desktop nav (hidden on phone) ---- */
+
+.nav {
+    display: none;
+}
+
+.nav__link {
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    transition: opacity 0.2s;
+}
+
+.nav__link:hover {
+    opacity: 0.6;
+}
+
+.nav__link--active {
+    border-bottom: 1px solid currentColor;
+}
+
+/* ---- phone toggle (hidden on desktop) ---- */
+
+.nav-toggle {
+    display: inline-flex;
+    line-height: 0;
+}
+
+/* ---- full-screen drawer ---- */
+
+.nav-drawer {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    padding: 20px var(--gutter) 112px;
+    overflow-y: auto;
+    background: var(--color-ink);
+    color: var(--color-paper);
+}
+
+.nav-drawer__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav-drawer__top svg {
+    height: 16px;
+    width: auto;
+}
+
+.nav-drawer__list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 32px;
+    margin-top: 64px;
+}
+
+.nav-drawer__list a {
+    font-size: 24px;
+    font-weight: 500;
+    text-transform: capitalize;
+    letter-spacing: -0.02em;
+}
+
+.nav-drawer__ctas {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: auto;
+    padding-top: 40px;
+}
+
+@media (min-width: 768px) {
+    .site-header__bar {
+        padding: 20px var(--gutter-md);
+    }
+
+    .site-header__logo svg {
+        height: 52px;
+    }
+
+    .nav {
+        display: flex;
+        align-items: center;
+        gap: 36px;
+    }
+
+    .nav-toggle,
+    .nav-drawer {
+        display: none;
+    }
+}

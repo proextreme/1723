@@ -3,22 +3,26 @@
  * consent banner. Everything degrades to a usable state without JavaScript.
  */
 
-function initNavToggle() {
-    const toggle = document.querySelector('[data-nav-toggle]');
+function initNavDrawer() {
+    const toggles = document.querySelectorAll('[data-nav-toggle]');
     const drawer = document.querySelector('[data-nav-drawer]');
 
-    if (!toggle || !drawer) {
+    if (!toggles.length || !drawer) {
         return;
     }
 
+    const openToggle = document.querySelector('[data-nav-toggle="open"]');
+
     const setOpen = (open) => {
-        toggle.setAttribute('aria-expanded', String(open));
         drawer.hidden = !open;
-        document.documentElement.classList.toggle('overflow-hidden', open);
+        document.documentElement.classList.toggle('is-nav-open', open);
+        openToggle?.setAttribute('aria-expanded', String(open));
     };
 
-    toggle.addEventListener('click', () => {
-        setOpen(toggle.getAttribute('aria-expanded') !== 'true');
+    toggles.forEach((toggle) => {
+        toggle.addEventListener('click', () => {
+            setOpen(drawer.hidden);
+        });
     });
 
     drawer.addEventListener('click', (event) => {
@@ -28,44 +32,44 @@ function initNavToggle() {
     });
 
     document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') {
+        if (event.key === 'Escape' && !drawer.hidden) {
             setOpen(false);
         }
     });
 }
 
-function initCookieConsent() {
-    const banner = document.querySelector('[data-cookie-consent]');
+function initCookieBar() {
+    const bar = document.querySelector('[data-cookie-bar]');
 
-    if (!banner) {
+    if (!bar) {
         return;
     }
 
     let accepted = false;
     try {
         accepted = localStorage.getItem('cookie-consent') === 'accepted';
-    } catch (error) {
+    } catch {
         accepted = false;
     }
 
     if (accepted) {
-        banner.remove();
+        bar.remove();
         return;
     }
 
-    banner.hidden = false;
+    bar.hidden = false;
 
-    banner.querySelector('[data-cookie-accept]')?.addEventListener('click', () => {
+    bar.querySelector('[data-cookie-accept]')?.addEventListener('click', () => {
         try {
             localStorage.setItem('cookie-consent', 'accepted');
-        } catch (error) {
-            /* private mode — the banner simply reappears next visit */
+        } catch {
+            /* private mode — the bar simply reappears next visit */
         }
-        banner.remove();
+        bar.remove();
     });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    initNavToggle();
-    initCookieConsent();
+    initNavDrawer();
+    initCookieBar();
 });

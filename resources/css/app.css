@@ -1,14 +1,13 @@
 @import 'tailwindcss';
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
+@source '../views/**/*.blade.php';
+@source '../js/**/*.js';
 
 /*
- * 17:23 MAG — a black-and-white editorial system.
- * Helvetica Neue set tight: near-1 line height, negative tracking, no radius.
- * The page alternates white and black sections; buttons invert to match.
+ * 17:23 MAG design tokens. Everything else is plain CSS in ./site/*, written
+ * mobile-first: base rules are the phone layout, `@media (min-width: 768px)`
+ * blocks add the desktop layout. Each block owns its own class names so a
+ * change here never leaks to another component.
  */
 @theme {
     --color-ink: #040404;
@@ -19,101 +18,16 @@
         'Helvetica Neue', 'Helvetica', 'Arial', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
         'Segoe UI Emoji';
 
-    --radius-none: 0;
+    /* One breakpoint for the whole public site. */
+    --bp-md: 768px;
+
+    /* Horizontal page gutter. */
+    --gutter: 16px;
+    --gutter-md: 20px;
 }
 
-@layer base {
-    html {
-        scroll-behavior: smooth;
-        -webkit-text-size-adjust: 100%;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        html {
-            scroll-behavior: auto;
-        }
-    }
-
-    body {
-        background-color: var(--color-paper);
-        color: var(--color-ink);
-        font-family: var(--font-sans);
-        font-weight: 700;
-        letter-spacing: -0.03em;
-        line-height: 0.95;
-        -webkit-font-smoothing: antialiased;
-        text-rendering: optimizeLegibility;
-    }
-
-    a {
-        color: inherit;
-        text-decoration: none;
-    }
-
-    :focus-visible {
-        outline: 2px solid currentColor;
-        outline-offset: 3px;
-    }
-
-    img {
-        display: block;
-        max-width: 100%;
-    }
-
-    /* Beat the `.flex` / `.grid` utilities so the `hidden` attribute wins. */
-    [hidden] {
-        display: none !important;
-    }
-}
-
-/* Fluid display type — scales the giant headline without overflowing narrow screens. */
-@utility text-display {
-    font-size: clamp(3rem, 13vw, 15.625rem);
-    line-height: 0.9;
-    letter-spacing: -0.04em;
-    font-weight: 700;
-}
-
-@utility text-statement {
-    font-size: clamp(1.75rem, 4.6vw, 4.75rem);
-    line-height: 0.9;
-    letter-spacing: -0.04em;
-    font-weight: 700;
-    text-wrap: balance;
-}
-
-/* Section headline — "Work Gains Value…", "Front Covers", "What's In It For Me?" */
-@utility text-section {
-    font-size: clamp(2rem, 6.2vw, 9.6875rem);
-    line-height: 0.9;
-    letter-spacing: -0.04em;
-    font-weight: 700;
-    text-transform: uppercase;
-}
-
-/* Full-bleed single-line headline — "Print Editions", "Enter 17:23 Be Seen". */
-@utility text-headline {
-    font-size: clamp(2.5rem, 9vw, 11rem);
-    line-height: 0.85;
-    letter-spacing: -0.045em;
-    font-weight: 700;
-    text-transform: uppercase;
-    text-wrap: balance;
-}
-
-/* Body-lead — the mid-size statement lines ("In a fast digital world…"). */
-@utility text-lead {
-    font-size: clamp(1.75rem, 4.4vw, 5.9375rem);
-    line-height: 1.1;
-    letter-spacing: -0.04em;
-    font-weight: 700;
-}
-
-/* Standfirst — the grey uppercase paragraph under a section headline. */
-@utility text-standfirst {
-    font-size: clamp(1.125rem, 2.4vw, 2.6875rem);
-    line-height: 1.15;
-    letter-spacing: -0.04em;
-    font-weight: 700;
-    text-transform: uppercase;
-}
+@import './site/base.css';
+@import './site/nav.css';
+@import './site/footer.css';
+@import './site/ui.css';
+@import './site/home.css';

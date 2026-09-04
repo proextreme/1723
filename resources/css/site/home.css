@@ -1,0 +1,431 @@
+/* ---------------------------------------------------------------------------
+ * Home page. One block per section; each block carries its own @media so a
+ * tweak to the phone layout never touches the desktop one and vice versa.
+ * ------------------------------------------------------------------------- */
+
+/* Shared section shell (light by default, .section--dark flips to black). */
+.section {
+    padding: 80px var(--gutter);
+    background: var(--color-paper);
+    color: var(--color-ink);
+}
+
+.section--dark {
+    background: var(--color-ink);
+    color: var(--color-paper);
+}
+
+.section__cta {
+    display: flex;
+    justify-content: center;
+    margin-top: 48px;
+}
+
+.section__cta .btn {
+    width: 100%;
+    max-width: 740px;
+}
+
+@media (min-width: 768px) {
+    .section {
+        padding: 96px var(--gutter-md);
+    }
+}
+
+/* =========================================================================
+ * 1 — Hero
+ * ===================================================================== */
+
+.hero {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 100svh;
+    background: var(--color-ink);
+    color: var(--color-paper);
+}
+
+.hero__media {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.hero__img {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    transform: translateX(-50%);
+    object-fit: contain;
+    object-position: top;
+    opacity: 0.95;
+}
+
+.hero__inner {
+    position: relative;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    /* extra bottom room so the cookie bar never covers a CTA on first visit */
+    padding: 112px var(--gutter) 112px;
+}
+
+.hero__headline {
+    margin: auto 0;
+    text-align: center;
+}
+
+.hero__subtitle {
+    margin-top: 24px;
+}
+
+.hero__footer {
+    display: grid;
+    gap: 16px;
+    padding-top: 20px;
+    border-top: 1px solid var(--color-paper);
+}
+
+.hero__tagline {
+    font-size: 24px;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+}
+
+.hero__ctas {
+    display: grid;
+    gap: 12px;
+}
+
+@media (min-width: 640px) {
+    .hero__ctas {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (min-width: 768px) {
+    .hero__img {
+        left: 24%;
+        width: 46%;
+        transform: none;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    .hero__inner {
+        padding: 128px var(--gutter-md) 64px;
+    }
+
+    .hero__footer {
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: end;
+        gap: 32px;
+    }
+
+    .hero__tagline {
+        font-size: 32px;
+    }
+
+    .hero__ctas {
+        display: flex;
+        flex-shrink: 0;
+    }
+
+    .hero__ctas .btn {
+        width: 280px;
+    }
+}
+
+/* =========================================================================
+ * 2 — Statement + editorial grid
+ * ===================================================================== */
+
+.statement__heading {
+    max-width: 14ch;
+}
+
+.statement__body {
+    margin-top: 40px;
+    max-width: 72rem;
+}
+
+.statement__grid {
+    list-style: none;
+    margin: 56px calc(-1 * var(--gutter)) 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+}
+
+.statement__grid a {
+    display: block;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    background: #ededed;
+    color: var(--color-ink);
+}
+
+.statement__grid img {
+    transition: transform 0.5s;
+}
+
+.statement__grid a:hover img {
+    transform: scale(1.03);
+}
+
+.statement__empty {
+    margin-top: 56px;
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--color-muted);
+}
+
+@media (min-width: 768px) {
+    .statement__grid {
+        margin-left: calc(-1 * var(--gutter-md));
+        margin-right: calc(-1 * var(--gutter-md));
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* =========================================================================
+ * 3 — Front covers
+ * ===================================================================== */
+
+.covers__body {
+    margin-top: 40px;
+    max-width: 72rem;
+}
+
+.covers__grid {
+    margin-top: 56px;
+    display: grid;
+    gap: 20px;
+}
+
+.covers__grid > * {
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    background: #161616;
+}
+
+@media (min-width: 768px) {
+    .covers__grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* =========================================================================
+ * 4 — Print editions teaser
+ * ===================================================================== */
+
+.print__figure {
+    margin: 48px 0 0 auto;
+    width: 100%;
+    max-width: 1200px;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: #ededed;
+}
+
+.print__figure img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.print__figure .media__fallback {
+    color: var(--color-muted);
+}
+
+.print__copy {
+    margin-top: 56px;
+}
+
+.print__quote {
+    max-width: 30ch;
+    text-wrap: balance;
+}
+
+.print__body {
+    margin-top: 24px;
+    max-width: 72rem;
+}
+
+@media (min-width: 768px) {
+    .print__figure {
+        width: 86%;
+    }
+}
+
+/* =========================================================================
+ * 5 — Enter 17:23 Be Seen
+ * ===================================================================== */
+
+.beseen {
+    position: relative;
+    overflow: hidden;
+    padding: 112px var(--gutter);
+    text-align: center;
+    background: var(--color-ink);
+    color: var(--color-paper);
+}
+
+.beseen__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.beseen__inner {
+    position: relative;
+}
+
+.beseen__cta {
+    display: flex;
+    justify-content: center;
+    margin-top: 48px;
+}
+
+.beseen__cta .btn {
+    width: 100%;
+    max-width: 740px;
+}
+
+@media (min-width: 768px) {
+    .beseen {
+        padding: 160px var(--gutter-md);
+    }
+}
+
+/* =========================================================================
+ * 6 — Newsletter
+ * ===================================================================== */
+
+.newsletter {
+    text-align: center;
+}
+
+.newsletter__body {
+    margin: 40px auto 0;
+    max-width: 64rem;
+    font-size: 24px;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+}
+
+.newsletter__form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 1246px;
+    margin: 56px auto 0;
+}
+
+.newsletter__input {
+    height: 55px;
+    flex: 1;
+    padding: 0 20px;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    background: var(--color-paper);
+    color: var(--color-ink);
+    border: 1px solid var(--color-ink);
+}
+
+.newsletter__input::placeholder {
+    color: var(--color-muted);
+}
+
+.newsletter__submit {
+    height: 55px;
+    flex-shrink: 0;
+    padding: 0 32px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.03em;
+    background: var(--color-ink);
+    color: var(--color-paper);
+}
+
+.newsletter__note {
+    margin-top: 16px;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.newsletter__note--error {
+    color: #b00000;
+}
+
+.newsletter__access {
+    margin-top: 24px;
+    font-size: 24px;
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    color: var(--color-muted);
+}
+
+.newsletter__closing {
+    margin: 80px auto 0;
+    max-width: 72rem;
+    font-size: 24px;
+    text-transform: uppercase;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    color: var(--color-muted);
+}
+
+@media (min-width: 640px) {
+    .newsletter__form {
+        flex-direction: row;
+    }
+
+    .newsletter__submit {
+        width: 320px;
+    }
+}
+
+@media (min-width: 768px) {
+    .newsletter__body {
+        font-size: 42px;
+    }
+
+    .newsletter__closing {
+        font-size: 57px;
+    }
+}
+
+/* =========================================================================
+ * Placeholder pages (Fashion / Print / … until they are built)
+ * ===================================================================== */
+
+.placeholder {
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.placeholder__note {
+    margin-top: 24px;
+    max-width: 36rem;
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--color-muted);
+}
+
+.placeholder__note a {
+    color: var(--color-ink);
+    text-decoration: underline;
+}
+

@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Article;
 use App\Models\ArticleTranslation;
+use App\Models\HomeGalleryImage;
 use App\Models\Media;
 use App\Models\PrintEdition;
 use App\Models\PrintEditionTranslation;
@@ -35,6 +36,7 @@ class AdminPanelPagesTest extends TestCase
             'settings' => ['/admin/manage-settings'],
             'media kit' => ['/admin/manage-media-kit'],
             'home page' => ['/admin/manage-home-page'],
+            'home gallery' => ['/admin/home-gallery-images'],
         ];
     }
 
@@ -49,6 +51,8 @@ class AdminPanelPagesTest extends TestCase
         Media::factory()->create();
         SiteLink::factory()->create(['target' => '_blank']);
         SiteLink::factory()->create(['target' => '_self']);
+        HomeGalleryImage::factory()->create(['url' => 'https://example.test']);
+        HomeGalleryImage::factory()->create(['url' => null]);
         User::factory()->contentAdministrator()->create();
 
         $this->actingAs(User::factory()->administrator()->create())

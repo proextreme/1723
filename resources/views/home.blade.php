@@ -27,11 +27,28 @@
         <h1 class="statement__heading t-section">{{ $home->text('statement_heading') }}</h1>
         <p class="statement__body t-standfirst">{{ $home->text('statement_body') }}</p>
 
-        @if ($articles->isNotEmpty())
+        @if ($gallery->isNotEmpty())
+            <ul class="statement__grid">
+                @foreach ($gallery as $item)
+                    <li>
+                        @if ($item->url)
+                            <a class="statement__tile" href="{{ $item->url }}" target="_blank" rel="noopener">
+                                <img src="{{ $item->publicUrl() }}" alt="{{ $item->alt }}" loading="lazy" decoding="async">
+                            </a>
+                        @else
+                            <div class="statement__tile">
+                                <img src="{{ $item->publicUrl() }}" alt="{{ $item->alt }}" loading="lazy" decoding="async">
+                            </div>
+                        @endif
+                    </li>
+                @endforeach
+            </ul>
+        @elseif ($articles->isNotEmpty())
             <ul class="statement__grid">
                 @foreach ($articles as $article)
                     <li>
-                        <a href="{{ route('fashion') }}" aria-label="{{ $article->translation?->title ?? 'Untitled article' }}">
+                        <a class="statement__tile" href="{{ route('fashion') }}"
+                           aria-label="{{ $article->translation?->title ?? 'Untitled article' }}">
                             <x-media-image :media="$article->media->first()" :alt="$article->translation?->title" />
                         </a>
                     </li>

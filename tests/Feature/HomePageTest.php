@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Article;
 use App\Models\ArticleTranslation;
+use App\Models\HomeGalleryImage;
 use App\Models\PrintEdition;
 use App\Models\PrintEditionTranslation;
 use App\Support\Settings\SettingsRepository;
@@ -51,6 +52,27 @@ class HomePageTest extends TestCase
             ->assertOk()
             ->assertSee('Print Editions', false)
             ->assertSee(route('print'));
+    }
+
+    public function test_the_editorial_grid_renders_the_curated_gallery(): void
+    {
+        HomeGalleryImage::factory()->create([
+            'path' => 'home/gallery/one.jpg', 'alt' => 'Linked shot', 'url' => 'https://example.test/story', 'sort_order' => 0,
+        ]);
+        HomeGalleryImage::factory()->create([
+            'path' => 'home/gallery/two.jpg', 'alt' => 'Plain shot', 'url' => null, 'sort_order' => 1,
+        ]);
+
+        $response = $this->get('/');
+
+        $response->assertOk()
+            ->assertSee('alt="Linked shot"', false)
+            ->assertSee('href="https://example.test/story"', false)
+            ->assertSee('alt="Plain shot"', false);
+
+        // the plain image is not wrapped in a link
+        $html = $response->getContent();
+        $this->assertStringContainsString('<div class="statement__tile">', $html);
     }
 
     public function test_home_page_content_is_editable_through_settings(): void

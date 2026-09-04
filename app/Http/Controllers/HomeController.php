@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\HomeGalleryImage;
 use App\Support\Content\HomeContent;
 use Illuminate\Contracts\View\View;
 
@@ -10,6 +11,8 @@ class HomeController extends Controller
 {
     public function __invoke(HomeContent $home): View
     {
+        $gallery = HomeGalleryImage::query()->ordered()->get();
+
         $articles = Article::query()
             ->published()
             ->with(['translation', 'media' => fn ($q) => $q->wherePivot('is_featured', true)])
@@ -20,6 +23,7 @@ class HomeController extends Controller
 
         return view('home', [
             'home' => $home,
+            'gallery' => $gallery,
             'articles' => $articles,
             'covers' => $articles->take(3),
         ]);

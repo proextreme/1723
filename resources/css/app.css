@@ -8,6 +8,7 @@
 /*
  * 17:23 MAG — a black-and-white editorial system.
  * Helvetica Neue set tight: near-1 line height, negative tracking, no radius.
+ * The page alternates white and black sections; buttons invert to match.
  */
 @theme {
     --color-ink: #040404;
@@ -34,8 +35,8 @@
     }
 
     body {
-        background-color: var(--color-ink);
-        color: var(--color-paper);
+        background-color: var(--color-paper);
+        color: var(--color-ink);
         font-family: var(--font-sans);
         font-weight: 700;
         letter-spacing: -0.03em;
@@ -50,13 +51,18 @@
     }
 
     :focus-visible {
-        outline: 2px solid var(--color-paper);
+        outline: 2px solid currentColor;
         outline-offset: 3px;
     }
 
     img {
         display: block;
         max-width: 100%;
+    }
+
+    /* Beat the `.flex` / `.grid` utilities so the `hidden` attribute wins. */
+    [hidden] {
+        display: none !important;
     }
 }
 
@@ -76,20 +82,38 @@
     text-wrap: balance;
 }
 
+/* Section headline — "Work Gains Value…", "Front Covers", "What's In It For Me?" */
 @utility text-section {
-    font-size: clamp(2rem, 6vw, 9.3125rem);
+    font-size: clamp(2rem, 6.2vw, 9.6875rem);
     line-height: 0.9;
     letter-spacing: -0.04em;
     font-weight: 700;
     text-transform: uppercase;
 }
 
-/* Full-bleed single-line section headline (final CTA). */
+/* Full-bleed single-line headline — "Print Editions", "Enter 17:23 Be Seen". */
 @utility text-headline {
     font-size: clamp(2.5rem, 9vw, 11rem);
-    line-height: 0.9;
+    line-height: 0.85;
     letter-spacing: -0.045em;
     font-weight: 700;
     text-transform: uppercase;
     text-wrap: balance;
+}
+
+/* Body-lead — the mid-size statement lines ("In a fast digital world…"). */
+@utility text-lead {
+    font-size: clamp(1.75rem, 4.4vw, 5.9375rem);
+    line-height: 1.1;
+    letter-spacing: -0.04em;
+    font-weight: 700;
+}
+
+/* Standfirst — the grey uppercase paragraph under a section headline. */
+@utility text-standfirst {
+    font-size: clamp(1.125rem, 2.4vw, 2.6875rem);
+    line-height: 1.15;
+    letter-spacing: -0.04em;
+    font-weight: 700;
+    text-transform: uppercase;
 }

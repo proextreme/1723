@@ -19,7 +19,7 @@
         {{ $attributes->merge(['class' => 'h-full w-full object-cover']) }}
     >
 @else
-    <div {{ $attributes->merge(['class' => 'flex h-full w-full items-center justify-center bg-[#161616] text-[11px] font-normal uppercase tracking-widest text-muted']) }}>
+    <div {{ $attributes->merge(['class' => 'flex h-full w-full items-center justify-center text-[11px] font-normal uppercase tracking-widest opacity-40']) }}>
         {{ $label }}
     </div>
 @endif

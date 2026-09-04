@@ -35,7 +35,7 @@
     </div>
 
     <div id="nav-drawer" data-nav-drawer hidden
-         class="fixed inset-0 z-50 flex flex-col bg-ink px-4 py-5 md:hidden">
+         class="fixed inset-0 z-50 flex flex-col overflow-y-auto bg-ink px-4 pb-28 pt-5 text-paper md:hidden">
         <div class="flex items-center justify-between">
             <x-logo class="h-4" />
             <button type="button" data-nav-toggle aria-label="Close menu">

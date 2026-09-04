@@ -5,9 +5,8 @@
 ])
 
 @php
-    $src = $media
-        ? \Illuminate\Support\Facades\Storage::disk($media->disk)->url($media->path)
-        : null;
+    $disk = $media ? \Illuminate\Support\Facades\Storage::disk($media->disk) : null;
+    $src = $media && $disk->exists($media->path) ? $disk->url($media->path) : null;
 @endphp
 
 @if ($src)
@@ -20,7 +19,7 @@
         {{ $attributes->merge(['class' => 'h-full w-full object-cover']) }}
     >
 @else
-    <div {{ $attributes->merge(['class' => 'flex h-full w-full items-center justify-center bg-[#161616] text-xs font-normal uppercase tracking-widest text-muted']) }}>
+    <div {{ $attributes->merge(['class' => 'flex h-full w-full items-center justify-center bg-[#161616] text-[11px] font-normal uppercase tracking-widest text-muted']) }}>
         {{ $label }}
     </div>
 @endif

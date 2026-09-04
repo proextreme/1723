@@ -34,7 +34,7 @@ class DemoContentSeeder extends Seeder
     private function seedArticles(User $author): void
     {
         $states = [
-            ['factory' => fn () => Article::factory()->published(), 'count' => 4],
+            ['factory' => fn () => Article::factory()->published(), 'count' => 6],
             ['factory' => fn () => Article::factory()->inReview(), 'count' => 1],
             ['factory' => fn () => Article::factory(), 'count' => 2],
         ];

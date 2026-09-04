@@ -69,10 +69,11 @@
 }
 
 @utility text-statement {
-    font-size: clamp(2.25rem, 7vw, 5.9375rem);
-    line-height: 0.85;
+    font-size: clamp(1.75rem, 4.6vw, 4.75rem);
+    line-height: 0.9;
     letter-spacing: -0.04em;
     font-weight: 700;
+    text-wrap: balance;
 }
 
 @utility text-section {
@@ -81,4 +82,14 @@
     letter-spacing: -0.04em;
     font-weight: 700;
     text-transform: uppercase;
+}
+
+/* Full-bleed single-line section headline (final CTA). */
+@utility text-headline {
+    font-size: clamp(2.5rem, 9vw, 11rem);
+    line-height: 0.9;
+    letter-spacing: -0.045em;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-wrap: balance;
 }

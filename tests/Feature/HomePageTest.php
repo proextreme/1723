@@ -39,14 +39,15 @@ class HomePageTest extends TestCase
         $response->assertDontSee('A Future Story');
     }
 
-    public function test_it_links_print_editions_out_to_magcloud(): void
+    public function test_the_print_section_links_to_the_print_page(): void
     {
-        $edition = PrintEdition::factory()->current()->create(['magcloud_url' => 'https://www.magcloud.com/issue-one']);
+        $edition = PrintEdition::factory()->current()->create();
         PrintEditionTranslation::factory()->for($edition)->create(['locale' => 'en', 'title' => 'Issue One']);
 
         $this->get('/')
-            ->assertSee('Issue One')
-            ->assertSee('https://www.magcloud.com/issue-one');
+            ->assertOk()
+            ->assertSee('Print Editions', false)
+            ->assertSee(route('print'));
     }
 
     public function test_the_newsletter_endpoint_is_rate_limited(): void

@@ -89,4 +89,4 @@ echo
 echo ">> Deploy finished. Application summary:"
 $PHP_BIN artisan about
 echo
-echo ">> Verify: https://first.4bstudio.com.ua/"
+echo ">> Verify: https://fond.4bstudio.com.ua/"

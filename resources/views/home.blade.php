@@ -83,8 +83,8 @@
         <h2 class="text-headline">Print Editions</h2>
 
         <div class="mt-12 ml-auto aspect-[4/3] w-full max-w-[1200px] overflow-hidden bg-[#ededed] text-ink md:w-[86%]">
-            <x-media-image :media="$printEditions->firstWhere('is_current')?->coverMedia ?? $printEditions->first()?->coverMedia"
-                           alt="Latest 17:23 MAG print edition" label="Print feature coming soon" />
+            <x-media-image :media="$printFeature"
+                           alt="17:23 MAG print edition" label="Print feature coming soon" />
         </div>
 
         <div class="mt-14">

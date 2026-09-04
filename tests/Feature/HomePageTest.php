@@ -4,9 +4,13 @@ namespace Tests\Feature;
 
 use App\Models\Article;
 use App\Models\ArticleTranslation;
+use App\Models\Media;
 use App\Models\PrintEdition;
 use App\Models\PrintEditionTranslation;
+use App\Support\Settings\SettingsRepository;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class HomePageTest extends TestCase
@@ -48,6 +52,19 @@ class HomePageTest extends TestCase
             ->assertOk()
             ->assertSee('Print Editions', false)
             ->assertSee(route('print'));
+    }
+
+    public function test_the_print_feature_image_is_taken_from_the_site_setting(): void
+    {
+        Storage::fake('public');
+        $path = Storage::disk('public')->putFile('media', UploadedFile::fake()->image('feature.jpg', 800, 600));
+
+        $media = Media::factory()->create(['disk' => 'public', 'path' => $path]);
+        app(SettingsRepository::class)->set('home_print_media_id', (string) $media->id);
+
+        $this->get('/')
+            ->assertOk()
+            ->assertSee(Storage::disk('public')->url($path), false);
     }
 
     public function test_the_newsletter_endpoint_is_rate_limited(): void

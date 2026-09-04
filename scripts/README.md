@@ -2,37 +2,44 @@
 
 The server pulls from GitHub. You never edit code on the server directly.
 
+Site: `https://fond.4bstudio.com.ua/`
+Path: `/home/lookco02/4bstudio.com.ua/fond`
+Database: MySQL `lookco02_firstmain` (shared with the abandoned `first` attempt;
+schema already migrated).
+
+## Why the root `.htaccess`
+
+This host serves each site from the site folder itself (no adjustable document
+root, no `public_html`). The committed root `.htaccess` rewrites every request
+into `public/`, so Laravel's front controller runs and dotfiles above `public/`
+stay unreachable. Same trick the working `neon.4bstudio.com.ua` site uses.
+
+Keep `fond` on the shared IP: the wildcard cert `*.4bstudio.com.ua` only covers
+sites on the shared IP. (The `first` attempt broke its own TLS by moving to a
+dedicated IP.) The site's PHP version must be 8.4+ (Symfony 8 needs `>=8.4.1`);
+`fond` already runs 8.4 on the web.
+
 ## One-time setup
 
-Connect the existing server directory to Git. `.env`, `vendor/`, uploads and
-`storage/` are all git-ignored, so this does not touch them.
-
 ```bash
-cd /home/lookco02/4bstudio.com.ua/first
+cd /home/lookco02/4bstudio.com.ua/fond
+rm -f _v.php                       # remove any leftover probe
+git clone https://github.com/proextreme/1723.git .
 
-# Safety copy first
-cp .env ~/env-backup-$(date +%F)
-tar czf ~/first-files-backup-$(date +%F).tgz --exclude=vendor --exclude=node_modules .
+# .env: reuse the working staging config, point APP_URL at this subdomain
+cp /home/lookco02/4bstudio.com.ua/first/.env .env   # if the first attempt still exists
+#   otherwise: cp .env.example .env && edit DB_* + run `php artisan key:generate`
+sed -i 's#^APP_URL=.*#APP_URL=https://fond.4bstudio.com.ua#' .env
 
-git init
-git remote add origin https://github.com/proextreme/1723.git
-git fetch origin
-git checkout -b main origin/main
-# If Git refuses because skeleton files differ from the repo:
-#   git reset --hard origin/main      # safe: .env / uploads are git-ignored
-
-php artisan storage:link
+bash scripts/deploy.sh
 ```
-
-Confirm the web server's document root is:
-`/home/lookco02/4bstudio.com.ua/first/public`
 
 ## Every deploy after that
 
 After Claude pushes to `main`:
 
 ```bash
-cd /home/lookco02/4bstudio.com.ua/first
+cd /home/lookco02/4bstudio.com.ua/fond
 bash scripts/deploy.sh
 ```
 

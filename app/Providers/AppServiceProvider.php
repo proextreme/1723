@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Support\Settings\SettingsRepository;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,7 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton(SettingsRepository::class);
     }
 
     /**
@@ -19,6 +21,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Model::preventLazyLoading(! $this->app->isProduction());
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\ArticleStatus;
 use App\Models\Article;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -19,7 +20,7 @@ class ArticleFactory extends Factory
     public function definition(): array
     {
         return [
-            'status' => 'draft',
+            'status' => ArticleStatus::Draft,
             'published_at' => null,
             'created_by' => User::factory(),
             'updated_by' => null,
@@ -32,19 +33,30 @@ class ArticleFactory extends Factory
     public function inReview(): static
     {
         return $this->state(fn (array $attributes) => [
-            'status' => 'review',
+            'status' => ArticleStatus::Review,
             'published_at' => null,
         ]);
     }
 
     /**
-     * Indicate that the article is published.
+     * Indicate that the article is published and already visible.
      */
     public function published(): static
     {
         return $this->state(fn (array $attributes) => [
-            'status' => 'published',
+            'status' => ArticleStatus::Published,
             'published_at' => now()->subDay(),
+        ]);
+    }
+
+    /**
+     * Indicate that the article is published but scheduled for the future.
+     */
+    public function scheduled(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'status' => ArticleStatus::Published,
+            'published_at' => now()->addWeek(),
         ]);
     }
 }

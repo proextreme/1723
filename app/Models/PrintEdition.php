@@ -2,26 +2,39 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasTranslations;
+use Database\Factories\PrintEditionFactory;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PrintEdition extends Model
 {
-    use HasFactory, SoftDeletes;
+    /** @use HasFactory<PrintEditionFactory> */
+    use HasFactory, HasTranslations, SoftDeletes;
 
     protected $fillable = ['issue_number', 'release_date', 'magcloud_url', 'cover_media_id', 'is_current', 'sort_order'];
 
     protected function casts(): array
     {
-        return ['release_date' => 'date', 'is_current' => 'boolean'];
+        return [
+            'release_date' => 'date',
+            'is_current' => 'boolean',
+        ];
     }
 
-    public function translations(): HasMany
+    /**
+     * The single edition currently on the shelf.
+     *
+     * @param  Builder<PrintEdition>  $query
+     */
+    #[Scope]
+    protected function current(Builder $query): void
     {
-        return $this->hasMany(PrintEditionTranslation::class);
+        $query->where('is_current', true);
     }
 
     public function coverMedia(): BelongsTo

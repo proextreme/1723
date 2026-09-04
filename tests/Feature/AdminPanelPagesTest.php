@@ -41,6 +41,16 @@ class AdminPanelPagesTest extends TestCase
     #[DataProvider('listAndCreatePages')]
     public function test_administrator_can_open_admin_pages(string $path): void
     {
+        // Every list table needs at least one row so column closures actually run.
+        $article = Article::factory()->published()->create();
+        ArticleTranslation::factory()->for($article)->create(['locale' => 'en']);
+        $edition = PrintEdition::factory()->current()->create();
+        PrintEditionTranslation::factory()->for($edition)->create(['locale' => 'en']);
+        Media::factory()->create();
+        SiteLink::factory()->create(['target' => '_blank']);
+        SiteLink::factory()->create(['target' => '_self']);
+        User::factory()->contentAdministrator()->create();
+
         $this->actingAs(User::factory()->administrator()->create())
             ->get($path)
             ->assertOk();

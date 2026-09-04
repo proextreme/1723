@@ -71,8 +71,8 @@ class SiteLinkResource extends Resource
             ->columns([
                 TextColumn::make('key')->badge()->searchable(),
                 TextColumn::make('label')->searchable()->weight('medium'),
-                TextColumn::make('url')->limit(45)->placeholder('—')->url(fn (SiteLink $r) => $r->url, shouldOpenInNewTab: true),
-                TextColumn::make('target')->badge()->formatStateUsing(fn (string $s): string => $s === '_blank' ? 'New tab' : 'Same tab'),
+                TextColumn::make('url')->limit(45)->placeholder('—')->url(fn (SiteLink $record): ?string => $record->url, shouldOpenInNewTab: true),
+                TextColumn::make('target')->badge()->formatStateUsing(fn (?string $state): string => $state === '_blank' ? 'New tab' : 'Same tab'),
                 IconColumn::make('is_active')->boolean(),
             ])
             ->defaultSort('key')

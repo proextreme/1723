@@ -15,9 +15,10 @@ class DatabaseSeeder extends Seeder
      * Seed the application's database.
      *
      * Site links and settings are always seeded (no secrets, just the contract).
-     * Demo users and demo content are seeded only outside production; real admin
-     * accounts are created with `php artisan make:filament-user`. Every step is
-     * safe to run again.
+     * Demo users and factory-generated demo content run only in the local
+     * environment — `fakerphp/faker` is a dev dependency and is absent from
+     * staging/production, where admin accounts are created with
+     * `php artisan make:filament-user`.
      */
     public function run(): void
     {
@@ -26,7 +27,7 @@ class DatabaseSeeder extends Seeder
             SettingSeeder::class,
         ]);
 
-        if (app()->isProduction()) {
+        if (! app()->environment('local', 'testing')) {
             return;
         }
 

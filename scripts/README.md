@@ -2,10 +2,13 @@
 
 The server pulls from GitHub. You never edit code on the server directly.
 
-Site: `https://fond.4bstudio.com.ua/`
+Site: `https://fond.4bstudio.com.ua/`  (live since 2026-09-04)
 Path: `/home/lookco02/4bstudio.com.ua/fond`
-Database: MySQL `lookco02_firstmain` (shared with the abandoned `first` attempt;
-schema already migrated).
+Database: MySQL `lookco02_firstmain` (schema already migrated).
+
+The earlier `first.4bstudio.com.ua` target was abandoned: it was on Apache with
+web PHP stuck at 8.3 (Symfony 8 needs >= 8.4.1) and its move to a dedicated IP
+broke the wildcard TLS. `fond` runs nginx + PHP 8.4 and keeps the shared IP.
 
 ## Why the root `.htaccess`
 
@@ -26,13 +29,20 @@ cd /home/lookco02/4bstudio.com.ua/fond
 rm -f _v.php                       # remove any leftover probe
 git clone https://github.com/proextreme/1723.git .
 
-# .env: reuse the working staging config, point APP_URL at this subdomain
-cp /home/lookco02/4bstudio.com.ua/first/.env .env   # if the first attempt still exists
-#   otherwise: cp .env.example .env && edit DB_* + run `php artisan key:generate`
-sed -i 's#^APP_URL=.*#APP_URL=https://fond.4bstudio.com.ua#' .env
+cp .env.example .env
+php artisan key:generate           # REQUIRED - a missing APP_KEY is a 500 on every page
+sed -i 's#^APP_ENV=.*#APP_ENV=staging#'                       .env
+sed -i 's#^APP_DEBUG=.*#APP_DEBUG=false#'                     .env
+sed -i 's#^APP_URL=.*#APP_URL=https://fond.4bstudio.com.ua#'  .env
+# then edit .env by hand: DB_CONNECTION=mysql, DB_DATABASE=lookco02_firstmain,
+# DB_USERNAME / DB_PASSWORD / DB_HOST from the hosting panel (MySQL section).
 
 bash scripts/deploy.sh
 ```
+
+Finally, in the panel for this site: enable **HTTPS redirect (http -> https)**.
+Do NOT switch the site to a dedicated IP - the wildcard cert only covers the
+shared IP.
 
 ## Every deploy after that
 

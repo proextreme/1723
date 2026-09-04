@@ -25,8 +25,8 @@ class AuthorizationTest extends TestCase
             'article.create' => ['article.create', true, true],
             'article.publish' => ['article.publish', true, true],
             'media.create' => ['media.create', true, true],
-            'print-edition.create' => ['print-edition.create', false, true],
-            'print-edition.setCurrent' => ['print-edition.setCurrent', false, true],
+            'print-edition.create' => ['print-edition.create', true, true],
+            'print-edition.setCurrent' => ['print-edition.setCurrent', true, true],
             'site-link.create' => ['site-link.create', false, true],
             'user.create' => ['user.create', false, true],
         ];

@@ -69,10 +69,10 @@ class AdminPanelPagesTest extends TestCase
             ->assertForbidden();
     }
 
-    public function test_a_content_administrator_cannot_open_print_editions(): void
+    public function test_a_content_administrator_can_open_print_editions(): void
     {
         $this->actingAs(User::factory()->contentAdministrator()->create())
             ->get('/admin/print-editions')
-            ->assertForbidden();
+            ->assertOk();
     }
 }

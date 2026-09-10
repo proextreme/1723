@@ -195,8 +195,10 @@ a.statement__tile:hover img {
     }
 
     .statement__grid {
+        /* the section now runs full-bleed on the right (0 padding), so only the
+           left gutter needs cancelling — pulling right too caused a scrollbar */
         margin-left: calc(-1 * var(--gutter-md));
-        margin-right: calc(-1 * var(--gutter-md));
+        margin-right: 0;
         grid-template-columns: repeat(3, 1fr);
     }
 }

@@ -355,7 +355,7 @@ section.beseen h2 span {
 
 .newsletter__input {
     height: 55px;
-    flex: 1;
+    flex: 0 0 50%;
     padding: 0 20px;
     font-weight: 400;
     letter-spacing: -0.02em;
@@ -413,7 +413,7 @@ section.beseen h2 span {
     }
 
     .newsletter__submit {
-        width: 320px;
+        width: 50%;
     }
 }
 

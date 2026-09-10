@@ -143,8 +143,15 @@
         @if ($home->image('beseen_image'))
             <img class="beseen__img" src="{{ $home->image('beseen_image') }}" alt="" loading="lazy" decoding="async">
         @endif
+        @php($beseenHeading = $home->text('beseen_heading'))
         <div class="beseen__inner">
-            <h2 class="t-headline">{{ $home->text('beseen_heading') }}</h2>
+            <h2 class="t-headline">
+                @if (str_contains($beseenHeading, '|'))
+                    {{ trim(\Illuminate\Support\Str::before($beseenHeading, '|')) }} <span>{{ trim(\Illuminate\Support\Str::after($beseenHeading, '|')) }}</span>
+                @else
+                    {{ $beseenHeading }}
+                @endif
+            </h2>
             <div class="beseen__cta">
                 <x-cta-button :href="route('submit')">Submit Your Work</x-cta-button>
             </div>

@@ -77,7 +77,8 @@ class ManageHomePage extends Page implements HasForms
                 ]),
                 Section::make('Enter 17:23 Be Seen')->collapsed()->schema([
                     $this->image('beseen_image')->label('Background image'),
-                    $this->line('beseen_heading')->label('Heading'),
+                    $this->line('beseen_heading')->label('Heading')
+                        ->helperText('Use "|" to split off an accent phrase, e.g. "Enter 17:23|Be Seen".'),
                 ]),
                 Section::make('Newsletter')->collapsed()->schema([
                     $this->line('newsletter_heading')->label('Heading'),

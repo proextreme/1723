@@ -30,7 +30,8 @@ class HomeContent
         'print_quote' => 'In a fast digital world, print becomes a form of quiet luxury',
         'print_body' => "Limited print editions of 17:23 MAG, bringing together fashion editorials, front covers, interviews, advertorials and creative photography from the world's leading and emerging creative talent.",
 
-        'beseen_heading' => 'Enter 17:23 Be Seen',
+        // a "|" splits the heading into a plain part and an accent <span> (indented on desktop)
+        'beseen_heading' => 'Enter 17:23|Be Seen',
 
         'newsletter_heading' => "What's In It For Me?",
         'newsletter_body' => 'The environment around the work defines its value. Where it appears, who it stands next to, and how it is presented define its impact. At 17:23, context becomes outcome.',

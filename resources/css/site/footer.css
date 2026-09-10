@@ -82,15 +82,15 @@
     }
 
     .site-footer__tagline {
-        font-size: 57px;
+        font-size: 37px;
         line-height: 0.85;
+        max-width: 55%;
     }
 
     .site-footer__cols {
-        flex-direction: row;
-        flex-wrap: wrap;
+        flex-flow: wrap;
         align-items: center;
         justify-content: space-between;
-        font-size: 24px;
+        font-size: 20px;
     }
 }

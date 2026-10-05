@@ -19,6 +19,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
 
 class SiteLinkResource extends Resource
 {
@@ -42,9 +43,23 @@ class SiteLinkResource extends Resource
                 ->helperText('Referenced in code and templates. Cannot change after creation.'),
             TextInput::make('label')->required()->maxLength(255),
             TextInput::make('url')
-                ->url()
                 ->maxLength(255)
-                ->helperText('Leave empty for the Media Kit — use the file field instead.'),
+                ->rule(
+                    fn (): \Closure => function (string $attribute, mixed $value, \Closure $fail): void {
+                        // Laravel's `url` rule requires a "scheme://" shape, which rejects the
+                        // valid-but-slashless mailto:/tel: links this field also needs to hold.
+                        if (blank($value)) {
+                            return;
+                        }
+
+                        if (Str::startsWith($value, ['mailto:', 'tel:']) || filter_var($value, FILTER_VALIDATE_URL) !== false) {
+                            return;
+                        }
+
+                        $fail('The :attribute must be a valid URL, or a mailto: / tel: link.');
+                    },
+                )
+                ->helperText('Leave empty for the Media Kit — use the file field instead. Accepts mailto: and tel: links too.'),
             Select::make('target')
                 ->options([
                     '_self' => 'Same tab',

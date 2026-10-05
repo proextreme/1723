@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Filament\Resources\HomeGalleryImages\Pages\ManageHomeGalleryImages;
+use App\Filament\Resources\SiteLinks\Pages\CreateSiteLink;
 use App\Models\Article;
 use App\Models\ArticleTranslation;
 use App\Models\HomeGalleryImage;
@@ -103,5 +104,25 @@ class AdminPanelPagesTest extends TestCase
             ->assertCanSeeTableRecords(HomeGalleryImage::all())
             ->set('activeTab', 'covers')
             ->assertCountTableRecords(1);
+    }
+
+    public function test_site_link_url_accepts_mailto_and_tel_links(): void
+    {
+        Livewire::actingAs(User::factory()->administrator()->create())
+            ->test(CreateSiteLink::class)
+            ->fillForm(['key' => 'email', 'label' => 'Email', 'url' => 'mailto:test1723@gmail.com'])
+            ->call('create')
+            ->assertHasNoFormErrors();
+
+        $this->assertDatabaseHas('site_links', ['key' => 'email', 'url' => 'mailto:test1723@gmail.com']);
+    }
+
+    public function test_site_link_url_rejects_garbage_input(): void
+    {
+        Livewire::actingAs(User::factory()->administrator()->create())
+            ->test(CreateSiteLink::class)
+            ->fillForm(['key' => 'broken', 'label' => 'Broken', 'url' => 'not a url'])
+            ->call('create')
+            ->assertHasFormErrors(['url']);
     }
 }

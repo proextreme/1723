@@ -4,10 +4,9 @@
  * in resources/js/site.js are a progressive enhancement that scrolls by
  * exactly one slide and disable themselves at each end.
  *
- * Reference: "02 — arrows outside" from the client's slider mockups. Arrows
- * only appear from --bp-md up — below that there is no room outside the
- * viewport without causing horizontal page scroll, so the phone relies on
- * the native swipe instead (the usual mobile carousel convention).
+ * Reference: "02 — arrows outside" from the client's slider mockups. On
+ * mobile there's no room outside the viewport, so the arrows sit inset over
+ * the slide instead; from --bp-md up they move outside the track.
  * ------------------------------------------------------------------------- */
 
 .slider {
@@ -41,7 +40,49 @@
 }
 
 .slider__arrow {
-    display: none;
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border: 1px solid #4c4c4c;
+    background: var(--color-ink);
+    color: var(--color-paper);
+    transform: translateY(-50%);
+    transition:
+        opacity 0.2s,
+        transform 0.2s;
+}
+
+.slider__arrow:hover {
+    transform: translateY(-50%) scale(1.06);
+}
+
+.slider__arrow:disabled {
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+.slider__arrow svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* mobile: inset over the slide, no room outside the viewport */
+.slider__arrow--prev {
+    left: 12px;
+}
+
+.slider__arrow--next {
+    right: 12px;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -57,43 +98,6 @@
 
     .slider__slide {
         flex-basis: calc((100% - 2 * 20px) / 3);
-    }
-
-    .slider__arrow {
-        position: absolute;
-        top: 50%;
-        z-index: 2;
-        display: grid;
-        place-items: center;
-        width: 42px;
-        height: 42px;
-        padding: 0;
-        border: 1px solid #4c4c4c;
-        background: var(--color-ink);
-        color: var(--color-paper);
-        transform: translateY(-50%);
-        transition:
-            opacity 0.2s,
-            transform 0.2s;
-    }
-
-    .slider__arrow:hover {
-        transform: translateY(-50%) scale(1.06);
-    }
-
-    .slider__arrow:disabled {
-        opacity: 0.3;
-        pointer-events: none;
-    }
-
-    .slider__arrow svg {
-        width: 18px;
-        height: 18px;
-        fill: none;
-        stroke: currentColor;
-        stroke-width: 1.8;
-        stroke-linecap: round;
-        stroke-linejoin: round;
     }
 
     .slider__arrow--prev {

@@ -18,7 +18,7 @@
 .section__cta {
     display: flex;
     justify-content: center;
-    margin-top: 48px;
+    margin-top: 40px;
 }
 
 .section__cta .btn {
@@ -29,6 +29,10 @@
 @media (min-width: 768px) {
     .section {
         padding: 96px 0 96px 20px;
+    }
+
+    .section__cta {
+        margin-top: 48px;
     }
 }
 
@@ -146,6 +150,12 @@
 /* =========================================================================
  * 2 — Statement + editorial grid
  * ===================================================================== */
+
+@media (max-width: 767px) {
+    section.section.statement {
+        padding: 70px var(--gutter) 50px;
+    }
+}
 
 .statement__heading {
     max-width: 15ch;

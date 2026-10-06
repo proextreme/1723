@@ -101,13 +101,13 @@ input {
 /* ---- shared type scale (content types, reused across sections) ---- */
 
 .t-display {
-    font-size: clamp(3rem, 13vw, 15.625rem);
+    font-size: clamp(3rem, 18vw, 15.625rem);
     line-height: 0.9;
     letter-spacing: -0.04em;
 }
 
 .t-statement {
-    font-size: clamp(1.75rem, 8vw, 4.75rem);
+    font-size: clamp(1.2rem, 4vw, 4.75rem);
     line-height: 0.92;
     letter-spacing: -0.04em;
     text-wrap: balance;
@@ -144,6 +144,14 @@ input {
 }
 
 @media (min-width: 768px) {
+    .t-display {
+        font-size: clamp(3rem, 13vw, 15.625rem);
+    }
+
+    .t-statement {
+        font-size: clamp(1.75rem, 8vw, 4.75rem);
+    }
+
     .t-section {
         font-size: clamp(2rem, 6.2vw, 9.6875rem);
     }

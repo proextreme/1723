@@ -341,6 +341,16 @@ section.beseen h2 span {
     margin-top: 48px;
 }
 
+@media (max-width: 767px) {
+    section.beseen .t-headline {
+        font-size: clamp(1.5rem, 9vw, 11rem);
+    }
+
+    .beseen__cta {
+        margin-top: 10px;
+    }
+}
+
 .beseen__cta .btn {
     width: 100%;
     max-width: 740px;

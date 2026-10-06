@@ -70,8 +70,7 @@
     display: flex;
     flex: 1;
     flex-direction: column;
-    /* extra bottom room so the cookie bar never covers a CTA on first visit */
-    padding: 150px var(--gutter) 112px;
+    padding: 145px var(--gutter) 40px;
 }
 
 .hero__headline {

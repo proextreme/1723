@@ -227,6 +227,15 @@ a.statement__tile:hover img {
     background: #161616;
 }
 
+@media (max-width: 767px) {
+    /* the slide stays full-width (for scroll-snap); the image itself sits
+       narrower and centered so the next/prev slide peeks at the edges */
+    .covers__tile {
+        width: 90%;
+        margin: 0 auto;
+    }
+}
+
 .covers__tile img {
     transition: transform 0.5s;
 }
